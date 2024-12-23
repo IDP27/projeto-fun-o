@@ -1,0 +1,119 @@
+projetos = []
+
+def criar_tarefa(nome, projeto, prioridade, categoria):
+ 
+    tarefa = {'nome': nome, 'projeto': projeto, 'prioridade': prioridade, 'categoria': categoria, 'concluida': False}
+    projetos.append(tarefa)
+
+
+def listar_tarefas():
+  
+    if not projetos:
+        print('Nenhum projeto foi encontrado.')
+    else:
+        print('Lista de tarefas:')
+        for i, tarefa in enumerate(projetos):
+            status = "Concluída" if tarefa["concluida"] else "Pendente"
+            print(f'{i + 1}. Nome: {tarefa["nome"]}, Projeto: {tarefa["projeto"]}, Prioridade: {tarefa["prioridade"]}, '
+                  f'Categoria: {tarefa["categoria"]}, Status: {status}')
+
+
+def atualizar_tarefa(indice, tarefa_nova, projeto_novo, prioridade_nova, categoria_nova):
+  
+    if 0 <= indice < len(projetos):
+        projetos[indice]['nome'] = tarefa_nova
+        projetos[indice]['projeto'] = projeto_novo
+        projetos[indice]['prioridade'] = prioridade_nova
+        projetos[indice]['categoria'] = categoria_nova
+        print('Tarefa atualizada com sucesso!')
+    else:
+        print('Índice inválido.')
+
+
+def excluir_tarefa(indice):
+
+    if 0 <= indice < len(projetos):
+        tarefa_excluida = projetos.pop(indice)
+        print(f'Tarefa "{tarefa_excluida["nome"]}" foi excluída com sucesso!')
+    else:
+        print('Índice inválido.')
+
+
+def marcar_concluida(indice):
+ 
+    if 0 <= indice < len(projetos):
+        projetos[indice]['concluida'] = True
+        print(f'Tarefa "{projetos[indice]["nome"]}" marcada como concluída!')
+    else:
+        print('Índice inválido.')
+
+
+def listar_por_filtro(chave, valor):
+
+    print(f'Tarefas filtradas por {chave}: {valor}')
+    filtradas = [tarefa for tarefa in projetos if tarefa[chave] == valor]
+    if not filtradas:
+        print('Nenhuma tarefa encontrada com esse critério.')
+    else:
+        for tarefa in filtradas:
+            status = "Concluída" if tarefa["concluida"] else "Pendente"
+            print(f'Nome: {tarefa["nome"]}, Projeto: {tarefa["projeto"]}, Prioridade: {tarefa["prioridade"]}, '
+                  f'Categoria: {tarefa["categoria"]}, Status: {status}')
+
+
+while True:
+    print('\n>>>>> Menu de Opções <<<<<')
+    print('[1] - Criar Tarefa')
+    print('[2] - Listar Tarefas')
+    print('[3] - Atualizar Tarefa')
+    print('[4] - Excluir Tarefa')
+    print('[5] - Listar Tarefas por Prioridade')
+    print('[6] - Listar Tarefas por Categoria')
+    print('[7] - Marcar Tarefa como Concluída')
+    print('[8] - Sair do Programa')
+
+    opcao = input('Digite uma opção do menu: ')
+
+    if opcao == '1':
+        nome_tarefa = input('Digite o nome da tarefa: ')
+        projeto_tarefa = input('Digite o nome do projeto: ')
+        prioridade_tarefa = input('Digite a prioridade (Alta, Média, Baixa): ')
+        categoria_tarefa = input('Digite a categoria: ')
+        criar_tarefa(nome_tarefa, projeto_tarefa, prioridade_tarefa, categoria_tarefa)
+
+    elif opcao == '2':
+        listar_tarefas()
+
+    elif opcao == '3':
+        listar_tarefas()
+        indice = int(input('Digite o índice da tarefa que deseja atualizar: ')) - 1
+        nome_novo = input('Digite o novo nome da tarefa: ')
+        projeto_novo = input('Digite o novo nome do projeto: ')
+        prioridade_nova = input('Digite a nova prioridade (Alta, Média, Baixa): ')
+        categoria_nova = input('Digite a nova categoria: ')
+        atualizar_tarefa(indice, nome_novo, projeto_novo, prioridade_nova, categoria_nova)
+
+    elif opcao == '4':
+        listar_tarefas()
+        indice = int(input('Digite o índice da tarefa que deseja excluir: ')) - 1
+        excluir_tarefa(indice)
+
+    elif opcao == '5':
+        prioridade = input('Digite a prioridade para filtrar (Alta, Média, Baixa): ')
+        listar_por_filtro('prioridade', prioridade)
+
+    elif opcao == '6':
+        categoria = input('Digite a categoria para filtrar: ')
+        listar_por_filtro('categoria', categoria)
+
+    elif opcao == '7':
+        listar_tarefas()
+        indice = int(input('Digite o índice da tarefa que deseja marcar como concluída: ')) - 1
+        marcar_concluida(indice)
+
+    elif opcao == '8':
+        print('Obrigado por usar o programa!')
+        break
+
+    else:
+        print('Opção inválida. Por favor, digite uma opção válida!')
